@@ -40,9 +40,10 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 				'instructions' => __( 'Specify the value returned in the template.', 'acf-fullname' ),
 				'type'         => 'select',
 				'choices'      => array(
-					'first_last' => __( "First Last", 'acf-fullname' ),
-					'last_first' => __( "Last, First", 'acf-fullname' ),
-					'array'      => __( "Values (array)", 'acf-fullname' ),
+					'first_last'        => __( "First Last", 'acf-fullname' ),
+					'last_first'        => __( "Last, First", 'acf-fullname' ),
+					'prefix_first_last' => __( "Prefix First Last", 'acf-fullname' ),
+					'array'             => __( "Values (array)", 'acf-fullname' ),
 				),
 				'name'         => 'return_format',
 			) );
@@ -56,6 +57,16 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 		function render_field( $field ) {
 			?>
             <div class="acf-fullname">
+                <div class="form-group prefix">
+                    <label for="prefix"><?= __( "Prefix", 'acf-fullname' ) ?></label>
+                    <select id="prefix" name="<?= $field['name'] ?>[prefix]">
+						<?php foreach ( acf_fullname_get_prefix() as $key => $value ): ?>
+                            <option value="<?= $key; ?>" <?= ( $key == $field['value']['prefix'] ) ? 'selected' : '' ?>>
+								<?= $value ?>
+                            </option>
+						<?php endforeach; ?>
+                    </select>
+                </div>
                 <div class="form-group first">
                     <label for="first"><?= __( "First Name", 'acf-fullname' ) ?></label>
                     <input id="first" type="text" name="<?= $field['name'] ?>[first]"
@@ -138,8 +149,9 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 			$parts = explode( '|', $value );
 
 			return array(
-				'first' => $parts[1],
-				'last'  => $parts[0],
+				'prefix' => $parts[2],
+				'first'  => $parts[1],
+				'last'   => $parts[0],
 			);
 		}
 
@@ -153,7 +165,7 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 		 * @return $value
 		 */
 		function update_value( $value, $post_id, $field ) {
-			return $value['last'] . '|' . $value['first'];
+			return $value['last'] . '|' . $value['first'] . '|' . $value['prefix'];
 		}
 
 		/**
@@ -176,6 +188,9 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 
 				case 'last_first':
 					return $value['last'] . ', ' . $value['first'];
+
+                case 'prefix_first_last':
+	                return acf_fullname_get_prefix($value['prefix']) . ' ' . $value['first'] . ' ' . $value['last'];
 
 				case 'array':
 				default:

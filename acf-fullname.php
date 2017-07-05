@@ -42,3 +42,23 @@ if ( ! class_exists( 'acf_plugin_fullname' ) ) :
 	new acf_plugin_fullname();
 
 endif;
+
+/**
+ * Helper for prefix definition
+ *
+ * @param string $value Value to
+ *
+ * @return array|mixed
+ */
+function acf_fullname_get_prefix( $value = '' ) {
+	$prefixes = array(
+		'Mr'  => __( "Mr.", 'acf-fullname' ),
+		'Mrs' => __( "Mrs.", 'acf-fullname' ),
+		'Mx'  => __( "Mx.", 'acf-fullname' ),
+	);
+	if ( ! empty( $value ) && isset( $prefixes[ $value ] ) ) {
+		return $prefixes[ $value ];
+	}
+
+	return $prefixes;
+}

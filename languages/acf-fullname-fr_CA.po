@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Advanced Custom Fields: Full Name\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-05 14:46+0000\n"
-"PO-Revision-Date: 2017-07-05 14:47+0000\n"
+"POT-Creation-Date: 2017-07-05 15:37+0000\n"
+"PO-Revision-Date: 2017-07-05 15:37+0000\n"
 "Last-Translator: lewebsimple <tech@lewebsimple.ca>\n"
 "Language-Team: French (Canada)\n"
 "Language: fr-CA\n"
@@ -12,6 +12,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco - https://localise.biz/"
+
+#: acf-fullname.php:55
+msgid "Mr."
+msgstr "M."
+
+#: acf-fullname.php:56
+msgid "Mrs."
+msgstr "Mme"
+
+#: acf-fullname.php:57
+msgid "Mx."
+msgstr "Mx"
 
 #: fields/acf-fullname-v5.php:22
 msgid "Full Name"
@@ -34,22 +46,30 @@ msgid "Last, First"
 msgstr "Nom, Prénom"
 
 #: fields/acf-fullname-v5.php:45
+msgid "Prefix First Last"
+msgstr "Préfixe Prénom Nom"
+
+#: fields/acf-fullname-v5.php:46
 msgid "Values (array)"
 msgstr "Valeurs (array)"
 
-#: fields/acf-fullname-v5.php:60
+#: fields/acf-fullname-v5.php:61
+msgid "Prefix"
+msgstr "Préfixe"
+
+#: fields/acf-fullname-v5.php:71
 msgid "First Name"
 msgstr "Prénom"
 
-#: fields/acf-fullname-v5.php:65
+#: fields/acf-fullname-v5.php:76
 msgid "Last Name"
 msgstr "Nom"
 
-#: fields/acf-fullname-v5.php:203
+#: fields/acf-fullname-v5.php:218
 msgid "Illegal characters"
 msgstr "Caractères illégaux"
 
-#: fields/acf-fullname-v5.php:208
+#: fields/acf-fullname-v5.php:223
 msgid "First and last names are required."
 msgstr "Prénom et nom sont requis."
 
