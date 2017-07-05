@@ -1,0 +1,9 @@
+.acf-fullname {
+    display: flex;
+    flex-flow: row;
+}
+.acf-fullname .form-group {
+    display: inline-block;
+    width: 200px;
+    margin-right: 10px;
+}

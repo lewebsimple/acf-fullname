@@ -21,7 +21,9 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 			$this->name     = 'fullname';
 			$this->label    = __( 'Full Name', 'acf-fullname' );
 			$this->category = 'basic';
-			$this->defaults = array();
+			$this->defaults = array(
+				'return_format' => 'last_first',
+			);
 			$this->settings = $settings;
 			parent::__construct();
 		}
@@ -32,7 +34,18 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 		 * @param $field (array) the $field being edited
 		 */
 		function render_field_settings( $field ) {
-			// TODO: Create field settings
+			// Return Format
+			acf_render_field_setting( $field, array(
+				'label'        => __( 'Return Format', 'acf-fullname' ),
+				'instructions' => __( 'Specify the value returned in the template.', 'acf-fullname' ),
+				'type'         => 'select',
+				'choices'      => array(
+					'first_last' => __( "First Last", 'acf-fullname' ),
+					'last_first' => __( "Last, First", 'acf-fullname' ),
+					'array'      => __( "Values (array)", 'acf-fullname' ),
+				),
+				'name'         => 'return_format',
+			) );
 		}
 
 		/**
@@ -42,7 +55,18 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 		 */
 		function render_field( $field ) {
 			?>
-            <input type="text" name="<?= $field['name'] ?>" value="<?= $field['value'] ?>"/>
+            <div class="acf-fullname">
+                <div class="form-group first">
+                    <label for="first"><?= __( "First Name", 'acf-fullname' ) ?></label>
+                    <input id="first" type="text" name="<?= $field['name'] ?>[first]"
+                           value="<?= esc_attr( $field['value']['first'] ) ?>"/>
+                </div>
+                <div class="form-group last">
+                    <label for="last"><?= __( "Last Name", 'acf-fullname' ) ?></label>
+                    <input id="last" type="text" name="<?= $field['name'] ?>[last]"
+                           value="<?= esc_attr( $field['value']['last'] ) ?>"/>
+                </div>
+            </div>
 			<?php
 		}
 
@@ -55,6 +79,9 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 			$version = $this->settings['version'];
 			wp_register_script( 'acf-input-fullname', "{$url}assets/js/input.js", array( 'acf-input' ), $version );
 			wp_enqueue_script( 'acf-input-fullname' );
+
+			wp_register_style( 'acf-fullname', "{$url}assets/css/acf-fullname.css", array( 'acf-input' ), $version );
+			wp_enqueue_style( 'acf-fullname' );
 		}
 
 		/**
@@ -108,7 +135,12 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 		 * @return $value
 		 */
 		function load_value( $value, $post_id, $field ) {
-			return $value;
+			$parts = explode( '|', $value );
+
+			return array(
+				'first' => $parts[1],
+				'last'  => $parts[0],
+			);
 		}
 
 		/**
@@ -121,7 +153,7 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 		 * @return $value
 		 */
 		function update_value( $value, $post_id, $field ) {
-			return $value;
+			return $value['last'] . '|' . $value['first'];
 		}
 
 		/**
@@ -138,7 +170,17 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 				return $value;
 			}
 
-			return $value;
+			switch ( $field['return_format'] ) {
+				case 'first_last':
+					return $value['first'] . ' ' . $value['last'];
+
+				case 'last_first':
+					return $value['last'] . ', ' . $value['first'];
+
+				case 'array':
+				default:
+					return $value;
+			}
 		}
 
 		/**
@@ -154,6 +196,19 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 		 * @return $valid
 		 */
 		function validate_value( $valid, $value, $field, $input ) {
+			// Check for illegal characters
+			if ( preg_match( "/[^[:alpha:]-.’ \']/u", stripslashes( $value['first'] ) ) ||
+			     preg_match( "/[^[:alpha:]-.’ \']/u", stripslashes( $value['last'] ) )
+			) {
+				$valid = __( "Illegal characters", 'acf-fullname' );
+			}
+			// Check for empty values when field is required
+			if ( $field['required'] ) {
+				if ( empty( $value['first'] ) || empty( $value['last'] ) ) {
+					$valid = __( "First and last names are required.", 'acf-fullname' );
+				}
+			}
+
 			return $valid;
 		}
 
