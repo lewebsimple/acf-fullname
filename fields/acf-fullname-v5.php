@@ -148,7 +148,11 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 		function load_value( $value, $post_id, $field ) {
 			$parts = explode( '|', $value );
 
-			return array(
+			return count( $parts ) !== 3 ? array(
+				'prefix' => '',
+				'first'  => '',
+				'last'   => '',
+			) : array(
 				'prefix' => $parts[2],
 				'first'  => $parts[1],
 				'last'   => $parts[0],
