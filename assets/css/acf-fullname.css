@@ -4,6 +4,8 @@
 }
 .acf-fullname .form-group {
     display: inline-block;
-    width: 200px;
     margin-right: 10px;
+}
+.acf-fullname #prefix {
+    min-width: 60px;
 }
