@@ -25,9 +25,12 @@ if ( ! class_exists( 'acf_plugin_fullname' ) ) :
 				'path'    => plugin_dir_path( __FILE__ )
 			);
 
-			load_plugin_textdomain( 'acf-fullname', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
-
+			add_action( 'plugins_loaded', array( $this, 'register_text_domain' ) );
 			add_action( 'acf/include_field_types', array( $this, 'include_field_types' ) ); // v5
+		}
+
+		function register_text_domain() {
+			load_plugin_textdomain( 'acf-fullname', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 		}
 
 		function include_field_types( $version = false ) {
