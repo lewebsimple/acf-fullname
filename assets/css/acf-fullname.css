@@ -2,10 +2,12 @@
     display: flex;
     flex-flow: row;
 }
+
 .acf-fullname .form-group {
     display: inline-block;
     margin-right: 10px;
 }
+
 .acf-fullname #prefix {
     min-width: 78px;
 }
