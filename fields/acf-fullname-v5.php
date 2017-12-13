@@ -113,8 +113,8 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 				'last'   => '',
 			) : array(
 				'prefix' => $parts[2],
-				'first'  => $parts[1],
-				'last'   => $parts[0],
+				'first'  => trim( $parts[1] ),
+				'last'   => trim( $parts[0] ),
 			);
 		}
 
@@ -128,7 +128,7 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 		 * @return $value
 		 */
 		function update_value( $value, $post_id, $field ) {
-			return $value['last'] . '|' . $value['first'] . '|' . $value['prefix'];
+			return trim( $value['last'] ) . '|' . trim( $value['first'] ) . '|' . $value['prefix'];
 		}
 
 		/**
@@ -182,7 +182,7 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 			}
 			// Check for empty values when field is required
 			if ( $field['required'] ) {
-				if ( empty( $value['first'] ) || empty( $value['last'] ) ) {
+				if ( empty( trim( $value['first'] ) ) || empty( trim( $value['last'] ) ) ) {
 					$valid = __( "First and last names are required.", 'acf-fullname' );
 				}
 			}
