@@ -82,8 +82,6 @@ if ( ! class_exists( 'acf_fullname_field' ) ) :
 		function input_admin_enqueue_scripts() {
 			$url     = $this->settings['url'];
 			$version = $this->settings['version'];
-			wp_register_script( 'acf-fullname', "{$url}assets/js/acf-fullname.js", array( 'acf-input' ), $version );
-//			wp_enqueue_script( 'acf-fullname' );
 
 			wp_register_style( 'acf-fullname', "{$url}assets/css/acf-fullname.css", array( 'acf-input' ), $version );
 			wp_enqueue_style( 'acf-fullname' );
@@ -158,7 +156,7 @@ if ( ! class_exists( 'acf_fullname_field' ) ) :
 
 		/**
 		 * Validate full name value
-         *
+		 *
 		 * @param  $valid (boolean) validation status based on the value and the field's required setting
 		 * @param  $value (mixed) the $_POST value
 		 * @param  $field (array) the field array holding all the field options
