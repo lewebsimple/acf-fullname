@@ -1,13 +1,14 @@
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Advanced Custom Fields: Full Name\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-07-26 13:13+0000\n"
-"PO-Revision-Date: 2018-07-26 13:15+0000\n"
-"Last-Translator: lewebsimple <tech@lewebsimple.ca>\n"
-"Language-Team: Français du Canada\n"
-"Language: fr_CA\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -15,80 +16,80 @@ msgstr ""
 
 #: acf-fullname.php:46
 msgid "Mr."
-msgstr "M."
+msgstr ""
 
 #: acf-fullname.php:47
 msgid "Mrs."
-msgstr "Mme"
+msgstr ""
 
 #: acf-fullname.php:48
 msgid "Mx."
-msgstr "Mx"
+msgstr ""
 
 #: fields/class-acf-fullname-v5.php:15
 msgid "Full name"
-msgstr "Nom complet"
+msgstr ""
 
 #: fields/class-acf-fullname-v5.php:32
 msgid "Return format"
-msgstr "Format d'affichage"
+msgstr ""
 
 #: fields/class-acf-fullname-v5.php:33
 msgid "Specify the return format used in the template."
-msgstr "Spécifier le format affiché par défaut dans les templates."
+msgstr ""
 
 #: fields/class-acf-fullname-v5.php:36
 msgid "First Last"
-msgstr "Prénom Nom"
+msgstr ""
 
 #: fields/class-acf-fullname-v5.php:37
 msgid "Last, First"
-msgstr "Nom, Prénom"
+msgstr ""
 
 #: fields/class-acf-fullname-v5.php:38
 msgid "Prefix First Last"
-msgstr "Préfixe Prénom Nom"
+msgstr ""
 
 #: fields/class-acf-fullname-v5.php:39
 msgid "Values (array)"
-msgstr "Valeurs (array)"
+msgstr ""
 
 #: fields/class-acf-fullname-v5.php:56
 msgid "Prefix"
-msgstr "Préfixe"
+msgstr ""
 
 #: fields/class-acf-fullname-v5.php:66
 msgid "First name"
-msgstr "Prénom"
+msgstr ""
 
 #: fields/class-acf-fullname-v5.php:71
 msgid "Last name"
-msgstr "Nom"
+msgstr ""
 
 #: fields/class-acf-fullname-v5.php:174
 msgid "Illegal characters in first or last name"
-msgstr "Caractères illégaux dans le prénom ou le nom"
+msgstr ""
 
 #: fields/class-acf-fullname-v5.php:179
 msgid "First and last names are required."
-msgstr "Prénom et nom sont requis."
+msgstr ""
 
 #. Name of the plugin
 msgid "ACF Fullname"
-msgstr "ACF Nom complet"
+msgstr ""
 
 #. Description of the plugin
 msgid "Full name field for Advanced Custom Fields v5."
-msgstr "Champs de nom complet pour Advanced Custom Fields v5."
+msgstr ""
 
 #. URI of the plugin
 msgid "https://github.com/lewebsimple/acf-fullname"
-msgstr "https://github.com/lewebsimple/acf-fullname"
+msgstr ""
 
 #. Author of the plugin
 msgid "Pascal Martineau <pascal@lewebsimple.ca>"
-msgstr "Pascal Martineau <pascal@lewebsimple.ca>"
+msgstr ""
 
 #. Author URI of the plugin
 msgid "https://lewebsimple.ca"
-msgstr "https://lewebsimple.ca"
+msgstr ""

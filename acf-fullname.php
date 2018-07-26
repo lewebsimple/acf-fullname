@@ -1,67 +1,61 @@
 <?php
-/*
-Plugin Name: Advanced Custom Fields: Full Name
-Plugin URI: https://gitlab.ledevsimple.ca/wordpress/acf-fullname
-Description: Full Name number field for ACF.
-Version: 0.1.0
-Author: Pascal Martineau <pascal@lewebsimple.ca>
-Author URI: https://lewebsimple.ca
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-*/
+/**
+ * Plugin Name:     ACF Fullname
+ * Plugin URI:      https://github.com/lewebsimple/acf-fullname
+ * Description:     Full name field for Advanced Custom Fields v5.
+ * Author:          Pascal Martineau <pascal@lewebsimple.ca>
+ * Author URI:      https://lewebsimple.ca
+ * License:         GPLv2 or later
+ * License URI:     http://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:     acf-fullname
+ * Domain Path:     /languages
+ * Version:         1.0.0
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'acf_plugin_fullname' ) ) :
+if ( ! class_exists( 'acf_fullname_plugin' ) ) :
 
-	class acf_plugin_fullname {
+	class acf_fullname_plugin {
 
 		function __construct() {
 			$this->settings = array(
-				'version' => '0.1.0',
+				'version' => '1.0.0',
 				'url'     => plugin_dir_url( __FILE__ ),
 				'path'    => plugin_dir_path( __FILE__ )
 			);
-
-			add_action( 'plugins_loaded', array( $this, 'register_text_domain' ) );
-			add_action( 'acf/include_field_types', array( $this, 'include_field_types' ) ); // v5
+			add_action( 'acf/include_field_types', array( $this, 'include_field_types' ) );
 		}
 
-		function register_text_domain() {
+		function include_field_types( $version ) {
 			load_plugin_textdomain( 'acf-fullname', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
+			include_once( 'fields/class-acf-fullname-v5.php' );
 		}
 
-		function include_field_types( $version = false ) {
-			if ( ! $version ) {
-				$version = 5;
+		/**
+		 * Helper for prefix definition
+		 *
+		 * @param string $value Value to
+		 *
+		 * @return array|mixed
+		 */
+		static function get_prefix( $value = '' ) {
+			$prefixes = array(
+				'Mr'  => __( "Mr.", 'acf-fullname' ),
+				'Mrs' => __( "Mrs.", 'acf-fullname' ),
+				'Mx'  => __( "Mx.", 'acf-fullname' ),
+			);
+			if ( ! empty( $value ) && isset( $prefixes[ $value ] ) ) {
+				return $prefixes[ $value ];
 			}
-			include_once( 'fields/acf-fullname-v' . $version . '.php' );
+
+			return $prefixes;
 		}
 
 	}
 
-	new acf_plugin_fullname();
+	new acf_fullname_plugin();
 
 endif;
-
-/**
- * Helper for prefix definition
- *
- * @param string $value Value to
- *
- * @return array|mixed
- */
-function acf_fullname_get_prefix( $value = '' ) {
-	$prefixes = array(
-		'Mr'  => __( "Mr.", 'acf-fullname' ),
-		'Mrs' => __( "Mrs.", 'acf-fullname' ),
-		'Mx'  => __( "Mx.", 'acf-fullname' ),
-	);
-	if ( ! empty( $value ) && isset( $prefixes[ $value ] ) ) {
-		return $prefixes[ $value ];
-	}
-
-	return $prefixes;
-}

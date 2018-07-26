@@ -1,13 +1,15 @@
-.acf-fullname {
-    display: flex;
-    flex-flow: row;
-}
+@media (min-width: 768px) {
 
-.acf-fullname .form-group {
+  .acf-fullname .form-group.prefix {
     display: inline-block;
-    margin-right: 10px;
-}
+  }
 
-.acf-fullname #prefix {
-    min-width: 78px;
+  .acf-fullname .form-group.first {
+    display: inline-block;
+  }
+
+  .acf-fullname .form-group.last {
+    display: inline-block;
+  }
+
 }

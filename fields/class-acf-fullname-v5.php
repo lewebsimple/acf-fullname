@@ -4,22 +4,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'acf_field_fullname' ) ) :
+if ( ! class_exists( 'acf_fullname_field' ) ) :
 
-	class acf_field_fullname extends acf_field {
+	class acf_fullname_field extends acf_field {
 
 		public $settings;
 
-		/**
-		 * acf_field_fullname constructor.
-		 *
-		 * This function will setup the field type data
-		 *
-		 * @param $settings (array) The plugin settings
-		 */
 		function __construct( $settings ) {
 			$this->name     = 'fullname';
-			$this->label    = __( 'Full Name', 'acf-fullname' );
+			$this->label    = __( 'Full name', 'acf-fullname' );
 			$this->category = 'basic';
 			$this->defaults = array(
 				'return_format' => 'last_first',
@@ -29,15 +22,15 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 		}
 
 		/**
-		 * Create extra settings for your field. These are visible when editing a field
+		 * Render full name field settings
 		 *
 		 * @param $field (array) the $field being edited
 		 */
 		function render_field_settings( $field ) {
 			// Return Format
 			acf_render_field_setting( $field, array(
-				'label'        => __( 'Return Format', 'acf-fullname' ),
-				'instructions' => __( 'Specify the value returned in the template.', 'acf-fullname' ),
+				'label'        => __( 'Return format', 'acf-fullname' ),
+				'instructions' => __( 'Specify the return format used in the template.', 'acf-fullname' ),
 				'type'         => 'select',
 				'choices'      => array(
 					'first_last'        => __( "First Last", 'acf-fullname' ),
@@ -50,53 +43,54 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 		}
 
 		/**
-		 * Create the HTML interface for your field
+		 * Render full name field input
 		 *
 		 * @param $field (array) the $field being rendered
 		 */
 		function render_field( $field ) {
+			$name  = $field['name'];
+			$value = $field['value'];
 			?>
-            <div class="acf-fullname">
+            <div class="acf-input-wrap acf-fullname">
                 <div class="form-group prefix">
                     <label for="prefix"><?= __( "Prefix", 'acf-fullname' ) ?></label>
-                    <select id="prefix" name="<?= $field['name'] ?>[prefix]">
-						<?php foreach ( acf_fullname_get_prefix() as $key => $value ): ?>
-                            <option value="<?= $key; ?>" <?= ( $key == $field['value']['prefix'] ) ? 'selected' : '' ?>>
-								<?= $value ?>
+                    <select id="prefix" name="<?= $name ?>[prefix]" class="form-control">
+						<?php foreach ( acf_fullname_plugin::get_prefix() as $key => $label ): ?>
+                            <option value="<?= $key; ?>" <?= ( $key === $value['prefix'] ) ? 'selected' : '' ?>>
+								<?= $label ?>
                             </option>
 						<?php endforeach; ?>
                     </select>
                 </div>
                 <div class="form-group first">
-                    <label for="first"><?= __( "First Name", 'acf-fullname' ) ?></label>
-                    <input id="first" type="text" name="<?= $field['name'] ?>[first]"
-                           value="<?= esc_attr( $field['value']['first'] ) ?>"/>
+                    <label for="first"><?= __( "First name", 'acf-fullname' ) ?></label>
+                    <input id="first" type="text" name="<?= $name ?>[first]" class="form-control"
+                           value="<?= esc_attr( $value['first'] ) ?>"/>
                 </div>
                 <div class="form-group last">
-                    <label for="last"><?= __( "Last Name", 'acf-fullname' ) ?></label>
-                    <input id="last" type="text" name="<?= $field['name'] ?>[last]"
-                           value="<?= esc_attr( $field['value']['last'] ) ?>"/>
+                    <label for="last"><?= __( "Last name", 'acf-fullname' ) ?></label>
+                    <input id="last" type="text" name="<?= $name ?>[last]" class="form-control"
+                           value="<?= esc_attr( $value['last'] ) ?>"/>
                 </div>
             </div>
 			<?php
 		}
 
 		/**
-		 *  This action is called in the admin_enqueue_scripts action on the edit screen where your field is created.
-		 *  Use this action to add CSS + JavaScript to assist your render_field() action.
+		 * Enqueue input scripts and styles
 		 */
 		function input_admin_enqueue_scripts() {
 			$url     = $this->settings['url'];
 			$version = $this->settings['version'];
-			wp_register_script( 'acf-input-fullname', "{$url}assets/js/input.js", array( 'acf-input' ), $version );
-			wp_enqueue_script( 'acf-input-fullname' );
+			wp_register_script( 'acf-fullname', "{$url}assets/js/acf-fullname.js", array( 'acf-input' ), $version );
+//			wp_enqueue_script( 'acf-fullname' );
 
 			wp_register_style( 'acf-fullname', "{$url}assets/css/acf-fullname.css", array( 'acf-input' ), $version );
 			wp_enqueue_style( 'acf-fullname' );
 		}
 
 		/**
-		 * This filter is applied to the $value after it is loaded from the db
+		 * Load value from database
 		 *
 		 * @param  $value (mixed) the value found in the database
 		 * @param  $post_id (mixed) the $post_id from which the value was loaded
@@ -105,6 +99,7 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 		 * @return $value
 		 */
 		function load_value( $value, $post_id, $field ) {
+			// Value looks like "Last|First|prefix"
 			$parts = explode( '|', $value );
 
 			return count( $parts ) !== 3 ? array(
@@ -119,7 +114,7 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 		}
 
 		/**
-		 * This filter is applied to the $value before it is saved in the db
+		 * Update value to database
 		 *
 		 * @param  $value (mixed) the value found in the database
 		 * @param  $post_id (mixed) the $post_id from which the value was loaded
@@ -132,7 +127,7 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 		}
 
 		/**
-		 * This filter is appied to the $value after it is loaded from the db and before it is returned to the template
+		 * Format full name value according to field settings
 		 *
 		 * @param  $value (mixed) the value which was loaded from the database
 		 * @param  $post_id (mixed) the $post_id from which the value was loaded
@@ -153,7 +148,7 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 					return $value['last'] . ', ' . $value['first'];
 
 				case 'prefix_first_last':
-					return acf_fullname_get_prefix( $value['prefix'] ) . ' ' . $value['first'] . ' ' . $value['last'];
+					return acf_fullname_plugin::get_prefix( $value['prefix'] ) . ' ' . $value['first'] . ' ' . $value['last'];
 
 				case 'array':
 				default:
@@ -162,10 +157,8 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 		}
 
 		/**
-		 *  This filter is used to perform validation on the value prior to saving.
-		 *  All values are validated regardless of the field's required setting. This allows you to validate and return
-		 *  messages to the user if the value is not correct
-		 *
+		 * Validate full name value
+         *
 		 * @param  $valid (boolean) validation status based on the value and the field's required setting
 		 * @param  $value (mixed) the $_POST value
 		 * @param  $field (array) the field array holding all the field options
@@ -178,7 +171,7 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 			if ( preg_match( "/[^[:alpha:]-.’ \']/u", stripslashes( $value['first'] ) ) ||
 			     preg_match( "/[^[:alpha:]-.’ \']/u", stripslashes( $value['last'] ) )
 			) {
-				$valid = __( "Illegal characters", 'acf-fullname' );
+				$valid = __( "Illegal characters in first or last name", 'acf-fullname' );
 			}
 			// Check for empty values when field is required
 			if ( $field['required'] ) {
@@ -192,6 +185,6 @@ if ( ! class_exists( 'acf_field_fullname' ) ) :
 
 	}
 
-	new acf_field_fullname( $this->settings );
+	new acf_fullname_field( $this->settings );
 
 endif;
