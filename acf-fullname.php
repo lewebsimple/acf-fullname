@@ -9,7 +9,7 @@
  * License URI:     http://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:     acf-fullname
  * Domain Path:     /languages
- * Version:         1.0.0
+ * Version:         1.0.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,7 +22,7 @@ if ( ! class_exists( 'acf_fullname_plugin' ) ) :
 
 		function __construct() {
 			$this->settings = array(
-				'version' => '1.0.0',
+				'version' => '1.0.1',
 				'url'     => plugin_dir_url( __FILE__ ),
 				'path'    => plugin_dir_path( __FILE__ )
 			);
@@ -43,12 +43,17 @@ if ( ! class_exists( 'acf_fullname_plugin' ) ) :
 		 */
 		static function get_prefix( $value = '' ) {
 			$prefixes = array(
+				'-'   => '',
 				'Mr'  => __( "Mr.", 'acf-fullname' ),
 				'Mrs' => __( "Mrs.", 'acf-fullname' ),
 				'Mx'  => __( "Mx.", 'acf-fullname' ),
 			);
-			if ( ! empty( $value ) && isset( $prefixes[ $value ] ) ) {
-				return $prefixes[ $value ];
+			if ( ! empty( $value ) ) {
+				if ( isset( $prefixes[ $value ] ) ) {
+					return $prefixes[ $value ];
+				} else {
+					return '';
+				}
 			}
 
 			return $prefixes;

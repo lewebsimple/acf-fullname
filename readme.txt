@@ -11,5 +11,8 @@ Phone number field for Advanced Custom Field v5.
 
 == Changelog ==
 
+= 1.0.1 =
+* Add empty prefix option
+
 = 1.0.0 =
 * Initial release

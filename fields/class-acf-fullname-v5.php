@@ -101,7 +101,7 @@ if ( ! class_exists( 'acf_fullname_field' ) ) :
 			$parts = explode( '|', $value );
 
 			return count( $parts ) !== 3 ? array(
-				'prefix' => '',
+				'prefix' => '-',
 				'first'  => '',
 				'last'   => '',
 			) : array(
@@ -146,7 +146,10 @@ if ( ! class_exists( 'acf_fullname_field' ) ) :
 					return $value['last'] . ', ' . $value['first'];
 
 				case 'prefix_first_last':
-					return acf_fullname_plugin::get_prefix( $value['prefix'] ) . ' ' . $value['first'] . ' ' . $value['last'];
+					if ( ! empty( $prefix = acf_fullname_plugin::get_prefix( $value['prefix'] ) ) ) {
+						$prefix .= ' ';
+					}
+					return $prefix . $value['first'] . ' ' . $value['last'];
 
 				case 'array':
 				default:
