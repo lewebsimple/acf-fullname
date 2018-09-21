@@ -7,7 +7,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Phone number field for Advanced Custom Field v5.
+Full name field for Advanced Custom Field v5.
 
 == Changelog ==
 
