@@ -65,12 +65,14 @@ if ( ! class_exists( 'acf_fullname_field' ) ) :
                 <div class="form-group first">
                     <label for="first"><?= __( "First name", 'acf-fullname' ) ?></label>
                     <input id="first" type="text" name="<?= $name ?>[first]" class="form-control"
-                           value="<?= esc_attr( $value['first'] ) ?>"/>
+                           value="<?= esc_attr( $value['first'] ) ?>"
+                           placeholder="<?= __( "First name", 'acf-fullname' ) ?>"/>
                 </div>
                 <div class="form-group last">
                     <label for="last"><?= __( "Last name", 'acf-fullname' ) ?></label>
                     <input id="last" type="text" name="<?= $name ?>[last]" class="form-control"
-                           value="<?= esc_attr( $value['last'] ) ?>"/>
+                           value="<?= esc_attr( $value['last'] ) ?>"
+                           placeholder="<?= __( "Last name", 'acf-fullname' ) ?>"/>
                 </div>
             </div>
 			<?php
@@ -149,6 +151,7 @@ if ( ! class_exists( 'acf_fullname_field' ) ) :
 					if ( ! empty( $prefix = acf_fullname_plugin::get_prefix( $value['prefix'] ) ) ) {
 						$prefix .= ' ';
 					}
+
 					return $prefix . $value['first'] . ' ' . $value['last'];
 
 				case 'array':
