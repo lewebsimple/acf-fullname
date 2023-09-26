@@ -9,7 +9,7 @@
  * License URI:     http://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:     acf-fullname
  * Domain Path:     /languages
- * Version:         1.0.2
+ * Version:         1.0.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -24,14 +24,14 @@ if ( ! class_exists( 'acf_fullname_plugin' ) ) :
 			$this->settings = array(
 				'version' => '1.0.2',
 				'url'     => plugin_dir_url( __FILE__ ),
-				'path'    => plugin_dir_path( __FILE__ )
+				'path'    => plugin_dir_path( __FILE__ ),
 			);
 			add_action( 'acf/include_field_types', array( $this, 'include_field_types' ) );
 		}
 
 		function include_field_types( $version ) {
 			load_plugin_textdomain( 'acf-fullname', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
-			include_once( 'fields/class-acf-fullname-v5.php' );
+			include_once 'fields/class-acf-fullname-v5.php';
 		}
 
 		/**

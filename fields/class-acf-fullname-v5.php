@@ -28,18 +28,21 @@ if ( ! class_exists( 'acf_fullname_field' ) ) :
 		 */
 		function render_field_settings( $field ) {
 			// Return Format
-			acf_render_field_setting( $field, array(
-				'label'        => __( 'Return format', 'acf-fullname' ),
-				'instructions' => __( 'Specify the return format used in the template.', 'acf-fullname' ),
-				'type'         => 'select',
-				'choices'      => array(
-					'first_last'        => __( "First Last", 'acf-fullname' ),
-					'last_first'        => __( "Last, First", 'acf-fullname' ),
-					'prefix_first_last' => __( "Prefix First Last", 'acf-fullname' ),
-					'array'             => __( "Values (array)", 'acf-fullname' ),
-				),
-				'name'         => 'return_format',
-			) );
+			acf_render_field_setting(
+				$field,
+				array(
+					'label'        => __( 'Return format', 'acf-fullname' ),
+					'instructions' => __( 'Specify the return format used in the template.', 'acf-fullname' ),
+					'type'         => 'select',
+					'choices'      => array(
+						'first_last'        => __( "First Last", 'acf-fullname' ),
+						'last_first'        => __( "Last, First", 'acf-fullname' ),
+						'prefix_first_last' => __( "Prefix First Last", 'acf-fullname' ),
+						'array'             => __( "Values (array)", 'acf-fullname' ),
+					),
+					'name'         => 'return_format',
+				)
+			);
 		}
 
 		/**
@@ -51,30 +54,30 @@ if ( ! class_exists( 'acf_fullname_field' ) ) :
 			$name  = $field['name'];
 			$value = $field['value'];
 			?>
-            <div class="acf-input-wrap acf-fullname">
-                <div class="form-group prefix">
-                    <label for="prefix"><?= __( "Prefix", 'acf-fullname' ) ?></label>
-                    <select id="prefix" name="<?= $name ?>[prefix]" class="form-control">
-						<?php foreach ( acf_fullname_plugin::get_prefix() as $key => $label ): ?>
-                            <option value="<?= $key; ?>" <?= ( $key === $value['prefix'] ) ? 'selected' : '' ?>>
+			<div class="acf-input-wrap acf-fullname">
+				<div class="form-group prefix">
+					<label for="prefix"><?= __( "Prefix", 'acf-fullname' ) ?></label>
+					<select id="prefix" name="<?= $name ?>[prefix]" class="form-control">
+						<?php foreach ( acf_fullname_plugin::get_prefix() as $key => $label ) : ?>
+							<option value="<?= $key; ?>" <?= ( is_array( $value ) && $key === $value['prefix'] ) ? 'selected' : '' ?>>
 								<?= $label ?>
-                            </option>
+							</option>
 						<?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="form-group first">
-                    <label for="first"><?= __( "First name", 'acf-fullname' ) ?></label>
-                    <input id="first" type="text" name="<?= $name ?>[first]" class="form-control"
-                           value="<?= esc_attr( $value['first'] ) ?>"
-                           placeholder="<?= __( "First name", 'acf-fullname' ) ?>"/>
-                </div>
-                <div class="form-group last">
-                    <label for="last"><?= __( "Last name", 'acf-fullname' ) ?></label>
-                    <input id="last" type="text" name="<?= $name ?>[last]" class="form-control"
-                           value="<?= esc_attr( $value['last'] ) ?>"
-                           placeholder="<?= __( "Last name", 'acf-fullname' ) ?>"/>
-                </div>
-            </div>
+					</select>
+				</div>
+				<div class="form-group first">
+					<label for="first"><?= __( "First name", 'acf-fullname' ) ?></label>
+					<input id="first" type="text" name="<?= $name ?>[first]" class="form-control"
+						   value="<?= is_array( $value ) ? esc_attr( $value['first'] ) : '' ?>"
+						   placeholder="<?= __( "First name", 'acf-fullname' ) ?>"/>
+				</div>
+				<div class="form-group last">
+					<label for="last"><?= __( "Last name", 'acf-fullname' ) ?></label>
+					<input id="last" type="text" name="<?= $name ?>[last]" class="form-control"
+						   value="<?= is_array( $value ) ? esc_attr( $value['last'] ) : '' ?>"
+						   placeholder="<?= __( "Last name", 'acf-fullname' ) ?>"/>
+				</div>
+			</div>
 			<?php
 		}
 
@@ -173,7 +176,7 @@ if ( ! class_exists( 'acf_fullname_field' ) ) :
 		function validate_value( $valid, $value, $field, $input ) {
 			// Check for illegal characters
 			if ( preg_match( "/[^[:alpha:]-.’ \']/u", stripslashes( $value['first'] ) ) ||
-			     preg_match( "/[^[:alpha:]-.’ \']/u", stripslashes( $value['last'] ) )
+				 preg_match( "/[^[:alpha:]-.’ \']/u", stripslashes( $value['last'] ) )
 			) {
 				$valid = __( "Illegal characters in first or last name", 'acf-fullname' );
 			}
